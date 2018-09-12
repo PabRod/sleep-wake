@@ -41,8 +41,9 @@ pars.H_l_0 = 0.1;
 step = 1e-2;
 ts = 0:step:30;
 y_0 = mean([pars.H_u_0, pars.H_l_0]);
+forcing = true;
 
-[y, awake, bounds] = borbely(ts, y_0, true, pars);
+[y, awake, bounds] = borbely(ts, y_0, true, pars, forcing);
 
 % Check that the time series is always between the boundaries
 below_upper_bound = (y <= bounds(1,:));

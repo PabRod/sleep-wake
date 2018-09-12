@@ -1,4 +1,4 @@
-function [ys, awake, bounds] = borbely(ts, y_init, awake_init, pars)
+function [ys, awake, bounds] = borbely(ts, y_init, awake_init, pars, forcing)
 %BORBELY Simulates the two-process sleep-wake 
 % As described in in Skeldon AC, Dijk D-J, Derks G. Mathematical Models for Sleep-Wake Dynamics: 
 % Comparison of the Two-Process Model and a Mutual Inhibition Neuronal Model.
@@ -9,6 +9,11 @@ function [ys, awake, bounds] = borbely(ts, y_init, awake_init, pars)
 %   ys: the time series of the homeostatic pressure
 %   awake: true if awake, false if sleeping
 %   bounds: upper (1st row) and lower bound (2nd row)
+
+%% Defaults
+if nargin == 4
+    forcing = false;
+end
 
 %% Initialize
 ys = NaN(1, numel((ts)));
@@ -55,5 +60,14 @@ for i = 2:numel(ts)
     else
         awake(i) = awake(i-1); % Keep status
     end
-
+    
+    if forcing
+        % If the rate is not fast enough to get away from the boundaries,
+        % truncate to the boundary value
+        if awake(i) && (ys(i) >= bounds(1, i)) % If awake, use upper bound
+            ys(i) = bounds(1, i);
+        elseif ~awake(i) && (ys(i) <= bounds(2, i)) % If sleeping, use lower bound
+            ys(i) = bounds(2, i);
+        end
+    end
 end
