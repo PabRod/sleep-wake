@@ -19,8 +19,8 @@ awake(1) = awake_init;
 
 %% Create governing dynamics
 % Homeostatic pressure
-H_s = @(t, H_0) H_0*exp(-t./pars.xi_s);
-H_w = @(t, H_0) pars.mu + (H_0 - pars.mu)*exp(-t/pars.xi_w);
+H_a = @(t, H_0) H_0*exp(-t./pars.xi_w); % Awake
+H_s = @(t, H_0) pars.mu + (H_0 - pars.mu)*exp(-t/pars.xi_s); % Sleeping
 
 % Circadian process
 C = @(t) sin(pars.w.*t - pars.alpha);
@@ -35,7 +35,7 @@ bounds(2, :) = H_l(ts);
 %% Simulate
 for i = 2:numel(ts)
     % Awake/Sleep status-dependent calculation
-    ys(i) = awake(i-1)*H_w(ts(i)-ts(i-1), ys(i-1)) + (~awake(i-1))*H_s(ts(i)-ts(i-1), ys(i-1));
+    ys(i) = awake(i-1)*H_a(ts(i)-ts(i-1), ys(i-1)) + (~awake(i-1))*H_s(ts(i)-ts(i-1), ys(i-1));
     
     % Awake/Sleep trigger
     between_bounds = (ys(i) <= bounds(1,i)) && (ys(i) >= bounds(2,i));
@@ -45,7 +45,7 @@ for i = 2:numel(ts)
         awake(i) = ~awake(i-1); % ... reverse awake/sleep status ...
         
         % And override state
-        ys(i) = (~awake(i-1))*H_w(ts(i)-ts(i-1), ys(i-1)) + awake(i-1)*H_s(ts(i)-ts(i-1), ys(i-1));
+        ys(i) = (~awake(i-1))*H_a(ts(i)-ts(i-1), ys(i-1)) + awake(i-1)*H_s(ts(i)-ts(i-1), ys(i-1));
         
         % If the rate is not fast enough to get away from the boundaries,
         % truncate to the boundary value
