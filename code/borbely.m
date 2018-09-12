@@ -21,6 +21,12 @@ awake(1) = awake_init;
 % Homeostatic pressure
 H_a = @(t, H_0) H_0*exp(-t./pars.xi_w); % Awake
 H_s = @(t, H_0) pars.mu + (H_0 - pars.mu)*exp(-t/pars.xi_s); % Sleeping
+H = @(t, H_0, awake) awake.*H_a(t, H_0) + (~awake).*H_s(t, H_0); % Combined
+
+% Homeostatic pressure's derivatives
+dH_a = @(H) -H./pars.xi_w; % Awake
+dH_s = @(H) (pars.mu - H)./pars.xi_s; % Sleeping
+dH = @(H, awake) awake.*dH_a(H) + (~awake).*dH_s(H); % Combined
 
 % Circadian process
 C = @(t) sin(pars.w.*t - pars.alpha);
@@ -34,27 +40,20 @@ bounds(2, :) = H_l(ts);
 
 %% Simulate
 for i = 2:numel(ts)
-    % Awake/Sleep status-dependent calculation
-    ys(i) = awake(i-1)*H_a(ts(i)-ts(i-1), ys(i-1)) + (~awake(i-1))*H_s(ts(i)-ts(i-1), ys(i-1));
+    % Update state
+    ys(i) = H(ts(i)-ts(i-1), ys(i-1), awake(i-1));
     
-    % Awake/Sleep trigger
-    between_bounds = (ys(i) <= bounds(1,i)) && (ys(i) >= bounds(2,i));
-    if (between_bounds)
-        awake(i) = awake(i-1);
-    else % If we go out of bounds..
-        awake(i) = ~awake(i-1); % ... reverse awake/sleep status ...
-        
-        % And override state
-        ys(i) = (~awake(i-1))*H_a(ts(i)-ts(i-1), ys(i-1)) + awake(i-1)*H_s(ts(i)-ts(i-1), ys(i-1));
-        
-        % If the rate is not fast enough to get away from the boundaries,
-        % truncate to the boundary value
-        if awake(i) && (ys(i) >= bounds(1, i)) % If awake, use upper bound
-            ys(i) = bounds(1, i);
-        elseif ~awake(i) && (ys(i) <= bounds(2, i)) % If sleeping, use lower bound
-            ys(i) = bounds(2, i);
-        end
+    % Update awake/sleeping status
+    wake_trigger = ~awake(i-1) && ys(i) >= bounds(1, i); % Sleeping and recovered
+    sleep_trigger = awake(i-1) && ys(i) <= bounds(2, i); % Awake and tired
+    if wake_trigger
+        awake(i) = true; % Good morning!
+        ys(i) = H(ts(i)-ts(i-1), ys(i-1), ~awake(i-1)); % TODO: decide if keep or remove this recalculation
+    elseif sleep_trigger
+        awake(i) = false; % Go to sleep
+        ys(i) = H(ts(i)-ts(i-1), ys(i-1), ~awake(i-1)); % TODO: decide if keep or remove this recalculation
+    else
+        awake(i) = awake(i-1); % Keep status
     end
-    
-end
 
+end

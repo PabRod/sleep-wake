@@ -25,7 +25,7 @@ pars.H_l_0 = 0.1;
 
 %% Generate time series
 step = 1e-3;
-ts = 0:1e-3:30;
+ts = 0:step:30;
 y_0 = mean([pars.H_u_0, pars.H_l_0]);
 
 [y, awake, bounds] = borbely(ts, y_0, true, pars);
