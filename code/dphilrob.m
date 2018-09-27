@@ -4,17 +4,38 @@ function dy = dphilrob(pars)
 %   integrated by ode45 or any other Matlab integrating function
 %
 %   Reference:
-%   Robinson PA, Phillips AJK et al. 
-%   Quantitative modelling of sleep dynamics. Trans R Soc A. 2011. 
-%   http://rsta.royalsocietypublishing.org/
+%   Phillips AJK, Robinson PA, Phillips A. 
+%   A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of 
+%   the Brainstem Ascending Arousal System. 
+%   J Biol Rhythms. 2007 ;22(2):167–79. 
+%   Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
 
 % Auxiliary functions
 C = @(t) pars.c0 + cos(pars.w.*(t - pars.alpha));
-Q = @(V) pars.Qmax./(1 + exp((pars.theta-V)./pars.sigma));
+S = @(V) pars.Qmax./(1 + exp((pars.theta-V)./pars.sigma));
 
 % Differential equation
-dy = @(t, y) [(-pars.vvm*Q(y(2)) + pars.Av - y(1) + pars.vvh*y(3) - pars.vvc*C(t))./pars.tauv; %Vv
-              (-pars.vmv*Q(y(1)) + pars.Am - y(2))./pars.taum; % Vm
-              (pars.mu*Q(y(2)) - y(3))./pars.Xi]; % H
+% Coupling matrix
+coupling = [0,          -pars.vvm, pars.vvh;
+            -pars.vmv,      0,          0;
+            0,          pars.mu,        0];
+
+% Saturated vector
+satvec = @(y) [S(y(1));
+               S(y(2));
+               y(3)];
+
+% Decay term
+sink = @(y) [y(1);
+              y(2);
+              y(3)];
+
+% Source term          
+source = @(t) [-pars.vvc.*C(t);
+                pars.vmaSa;
+                0];
+          
+% Build the differential equation
+dy = @(t, y) (coupling*satvec(y) + source(t) - sink(y))./[pars.tauv; pars.taum; pars.Xi];
 
 end
