@@ -11,12 +11,12 @@ function dy = dphilrob(pars)
 %   Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
 
 % Auxiliary functions
-C = @(t) pars.c0 + cos(pars.w.*(t - pars.alpha));
 S = @(V) pars.Qmax./(1 + exp((pars.theta-V)./pars.sigma));
+C = @(t) 0.5.*(1 + cos(pars.w.*(t - pars.alpha))); % TODO: This is an approximation
 
 % Differential equation
 % Coupling matrix
-coupling = [0,          -pars.vvm, pars.vvh;
+coupling = [0,          -pars.vvm,      pars.vvh;
             -pars.vmv,      0,          0;
             0,          pars.mu,        0];
 
@@ -27,15 +27,15 @@ satvec = @(y) [S(y(1));
 
 % Decay term
 sink = @(y) [y(1);
-              y(2);
-              y(3)];
+             y(2);
+             y(3)];
 
 % Source term          
-source = @(t) [-pars.vvc.*C(t);
-                pars.vmaSa;
-                0];
+source = @(t,y) [pars.vvh.*y(3) - pars.vvc.*C(t);
+                 pars.vmaSa;
+                 0];
           
 % Build the differential equation
-dy = @(t, y) (coupling*satvec(y) + source(t) - sink(y))./[pars.tauv; pars.taum; pars.Xi];
+dy = @(t, y) (coupling*satvec(y) + source(t,y) - sink(y))./[pars.tauv; pars.taum; pars.Xi];
 
 end
