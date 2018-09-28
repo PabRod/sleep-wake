@@ -12,7 +12,7 @@ function dy = dphilrob(pars)
 
 % Auxiliary functions
 S = @(V) pars.Qmax./(1 + exp((pars.theta-V)./pars.sigma));
-C = @(t) 0.5.*(1 + cos(pars.w.*(t - pars.alpha))); % TODO: This is an approximation
+C = @(t) 0.5*(1 + cos(pars.w.*(t - pars.alpha))); % TODO: This is an approximation
 
 % Differential equation
 % Coupling matrix
@@ -31,7 +31,7 @@ sink = @(y) [y(1);
              y(3)];
 
 % Source term          
-source = @(t,y) [pars.vvh.*y(3) - pars.vvc.*C(t);
+source = @(t,y) [-pars.vvc.*C(t);
                  pars.vmaSa;
                  0];
           
