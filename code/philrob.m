@@ -1,4 +1,4 @@
-function [ts, ys] = philrob(ts, y_init, pars)
+function [ts, ys] = philrob(ts, y_init, varargin)
 %PHILROB Wrapper for the Phillips-Robinson sleep wake cycle model
 %   Returns the integrated time series for the given conditions
 %
@@ -7,7 +7,7 @@ function [ts, ys] = philrob(ts, y_init, pars)
 %   Quantitative modelling of sleep dynamics. Trans R Soc A. 2011. 
 %   http://rsta.royalsocietypublishing.org/
 
-dy = dphilrob(pars);
+dy = dphilrob(varargin{:});
 
 sol = ode45(dy, ts, y_init);
 
