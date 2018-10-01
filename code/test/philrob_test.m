@@ -1,9 +1,12 @@
 % Parameters
 nDays_short = 0.1; % d
 ts_short = [0, 3600*24*nDays_short]; % Expected units are s
-nDays_long = 4; % d
+nDays_long = 6; % d
 ts_long = [0, 3600*24*nDays_long]; % Expected units are s
+
 y_init = [-13, 1, 10];
+
+absTol = 1e-3;
 
 %% Input parser default
 [ts_short, ys] = philrob(ts_short, y_init);
@@ -44,3 +47,38 @@ pars.alpha = 0; % rad
 
 d = size(ys);
 assert(d(1) == 3);
+
+%% Stable solution
+% Kill all sources
+[ts_long, ys] = philrob(ts_long, y_init, 'vmaSa', 0.0, 'vvc', 0.0);
+
+% Check an equilibrium is reached
+dy = dphilrob('vmaSa', 0.0, 'vvc', 0.0);
+dy_asymptote = dy(ts_long(end), ys(:,end));
+assert(max(abs(dy_asymptote)) < absTol);
+
+%% Only V oscillates
+% Kill mutual inhibition
+[ts_long, ys] = philrob(ts_long, y_init, 'vvm', 0.0, 'vmv', 0.0);
+
+% Check V_m and H stay stable
+dy = dphilrob('vvm', 0.0, 'vmv', 0.0);
+dy_asymptote = dy(ts_long(end), ys(:,end));
+assert(max(abs(dy_asymptote(2:3))) < absTol);
+
+%% Phillips 2007
+% Simulate paper example (http://journals.sagepub.com/doi/10.1177/0748730406297512)
+y_init_att = [-12.6404; 0.8997; 12.5731];
+[ts_long, ys] = philrob(ts_long, y_init_att);
+
+Vvs = ys(1,:);
+Vms = ys(2,:);
+Hs = ys(3,:);
+
+% Approximate limits taken from Figure 5
+assert(min(Vvs) > -13 && min(Vvs) < -10);
+assert(max(Vvs) > 1 && max(Vvs) < 2);
+assert(min(Vms) > -11 && min(Vms) < -10);
+assert(max(Vms) > 0 && max(Vms) < 3);
+assert(min(Hs) > 7 && min(Hs) < 9);
+assert(max(Hs) > 14 && max(Hs) < 15);
