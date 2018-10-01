@@ -1,7 +1,30 @@
 function dy = dphilrob(varargin)
 %DPHILROB Phillips-Robinson sleep wake cycle model
 %   Returns the function handle for the differential equation, ready to be 
-%   integrated by ode45 or any other Matlab integrating function
+%   integrated by ode45 or any other Matlab solver.
+%
+%   Output:
+%
+%   dy(1) = @(t,y) V_v';
+%   dy(2) = @(t,y) V_m';
+%   dy(3) = @(t,y) H';
+%
+%   Examples:
+%
+%   Return the function handle with default parameters:
+%   dy = dphilrob();
+%
+%   Return the function handle with some parameters overriden:
+%   dy = dphilrob('Qmax', 150, 'Theta', 9);
+%
+%   Return the function handle with custom parameters:
+%   pars.Qmax = 150;
+%   pars.Theta = 9;
+%   pars.Sigma = 4;
+%   ...
+%   ... % All parameters should be defined inside the structure
+%   ...
+%   dy = dphilrob(pars);
 %
 %   Reference:
 %   Phillips AJK, Robinson PA, Phillips A. 
@@ -34,6 +57,7 @@ defaultD = 0.77; % mV
 defaultDa = 0.42; % mV
 defaultAlpha = 0.0; % rad
 
+% Flexible parsing
 p = inputParser;
 p.addParameter('Qmax', defaultQmax);
 p.addParameter('theta', defaultTheta);
@@ -53,12 +77,11 @@ p.addParameter('Da', defaultDa);
 p.addParameter('alpha', defaultAlpha);
 
 p.parse(varargin{:});
-
 pars = p.Results;
 
 %% Build the differential equation
 % Auxiliary functions
-S = @(V) pars.Qmax./(1 + exp((pars.theta-V)./pars.sigma));
+S = @(V) pars.Qmax./(1 + exp((pars.theta-V)./pars.sigma)); % Sigmoid growth
 C = @(t) 0.5*(1 + cos(pars.w.*(t - pars.alpha))); % TODO: This is an approximation
 
 % Coupling matrix
@@ -72,13 +95,11 @@ satvec = @(y) [S(y(1));
                y(3)];
 
 % Decay term
-sink = @(y) [y(1);
-             y(2);
-             y(3)];
+sink = @(y) y;
 
 % Source term          
-source = @(t,y) [-pars.vvc.*C(t);
-                 pars.vmaSa;
+source = @(t,y) [-pars.vvc.*C(t); % Light/darkness coupling
+                 pars.vmaSa; % Constant source from Acetylcholine group
                  0];
           
 % Build the differential equation
