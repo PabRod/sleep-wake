@@ -65,6 +65,9 @@ switch id
         pars.D = 0.6; % mV
         pars.Da = 3.4; % mV
         pars.alpha = 0.0; % rad
+        
+    otherwise
+        error('Wrong input');
 end
 
 end
