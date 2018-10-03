@@ -35,46 +35,26 @@ function dy = dphilrob(varargin)
 
 %% Parse input
 % Default values taken from the paper mentioned above
-defaultQmax = 100; % s^-1
-defaultTheta = 10; % mV
-defaultSigma = 3; % mV
-
-defaultVmaSa = 1; % mV
-defaultVvm = 1.9; % mV s (negative effect)
-defaultVmv = 1.9; % mV s (negative effect)
-defaultVvc = 6.3; % mV (negative effect)
-defaultVvh = 0.19; % mV nM^-1
-
-defaultXi = 10.8 * 3600; % s
-defaultMu = 1e-3 * 3600; % nM s
-
-defaultTaum = 10; % s
-defaultTauv = 10; % s
-
-T = 3600*24; % s
-defaultW = 2*pi/T; % s^-1
-defaultD = 0.77; % mV
-defaultDa = 0.42; % mV
-defaultAlpha = 0.0; % rad
+default = genPars('philrob2007');
 
 % Flexible parsing
 p = inputParser;
-p.addParameter('Qmax', defaultQmax);
-p.addParameter('theta', defaultTheta);
-p.addParameter('sigma', defaultSigma);
-p.addParameter('vmaSa', defaultVmaSa);
-p.addParameter('vvm', defaultVvm);
-p.addParameter('vmv', defaultVmv);
-p.addParameter('vvc', defaultVvc);
-p.addParameter('vvh', defaultVvh);
-p.addParameter('Xi', defaultXi);
-p.addParameter('mu', defaultMu);
-p.addParameter('taum', defaultTaum);
-p.addParameter('tauv', defaultTauv);
-p.addParameter('w', defaultW);
-p.addParameter('D', defaultD);
-p.addParameter('Da', defaultDa);
-p.addParameter('alpha', defaultAlpha);
+p.addParameter('Qmax', default.Qmax);
+p.addParameter('theta', default.theta);
+p.addParameter('sigma', default.sigma);
+p.addParameter('vmaSa', default.vmaSa);
+p.addParameter('vvm', default.vvm);
+p.addParameter('vmv', default.vmv);
+p.addParameter('vvc', default.vvc);
+p.addParameter('vvh', default.vvh);
+p.addParameter('Xi', default.Xi);
+p.addParameter('mu', default.mu);
+p.addParameter('taum', default.taum);
+p.addParameter('tauv', default.tauv);
+p.addParameter('w', default.w);
+p.addParameter('D', default.D);
+p.addParameter('Da', default.Da);
+p.addParameter('alpha', default.alpha);
 
 p.parse(varargin{:});
 pars = p.Results;
