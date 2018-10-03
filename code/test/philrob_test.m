@@ -68,9 +68,8 @@ assert(max(abs(dy_asymptote(2:3))) < absTol);
 
 %% Phillips 2007
 % Simulate paper example (http://journals.sagepub.com/doi/10.1177/0748730406297512)
-pars = importPars('philrob.csv', 'philrob2007');
 y_init_att = [-12.6404; 0.8997; 12.5731];
-[ts_long, ys] = philrob(ts_long, y_init_att, pars);
+[ts_long, ys] = philrob(ts_long, y_init_att);
 
 Vvs = ys(1,:);
 Vms = ys(2,:);

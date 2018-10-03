@@ -10,10 +10,31 @@ clc;
 % the Brainstem Ascending Arousal System. 
 % J Biol Rhythms. 2007 ;22(2):167–79. 
 % Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
-pars = importPars('philrob.csv', 'philrob2007');
+
+pars.Qmax = 100; % s^-1
+pars.theta = 10; % mV
+pars.sigma = 3; % mV
+
+pars.vmaSa = 1; % mV
+pars.vvm = 1.9; % mV s (negative effect)
+pars.vmv = 1.9; % mV s (negative effect)
+pars.vvc = 6.3; % mV (negative effect)
+pars.vvh = 0.19; % mV nM^-1
+
+pars.Xi = 10.8 * 3600; % s
+pars.mu = 1e-3 * 3600; % nM s
+
+pars.taum = 10; % s
+pars.tauv = 10; % s
+
+T = 3600*24; % s
+pars.w = 2*pi/T; % s^-1
+pars.D = 0.77; % mV
+pars.Da = 0.42; % mV
+pars.alpha = 0.0; % rad
 
 %% Generate time series
-nDays = 6; % d
+nDays = 3; % d
 ts = [0, 3600*24*nDays]; % Expected units are s
 y_init = [-10, 1, 10];
 [ts, ys] = philrob(ts, y_init, pars);
