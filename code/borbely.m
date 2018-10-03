@@ -53,10 +53,10 @@ for i = 2:numel(ts)
     sleep_trigger = awake(i-1) && ys(i) <= bounds(2, i); % Awake and tired
     if wake_trigger
         awake(i) = true; % Good morning!
-        ys(i) = H(ts(i)-ts(i-1), ys(i-1), ~awake(i-1)); % TODO: decide if keep or remove this recalculation
+        %ys(i) = H(ts(i)-ts(i-1), ys(i-1), ~awake(i-1)); % TODO: decide if keep or remove this recalculation
     elseif sleep_trigger
         awake(i) = false; % Go to sleep
-        ys(i) = H(ts(i)-ts(i-1), ys(i-1), ~awake(i-1)); % TODO: decide if keep or remove this recalculation
+        %ys(i) = H(ts(i)-ts(i-1), ys(i-1), ~awake(i-1)); % TODO: decide if keep or remove this recalculation
     else
         awake(i) = awake(i-1); % Keep status
     end
