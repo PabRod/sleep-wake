@@ -11,3 +11,9 @@ pars_2 = importPars('philrob.csv', 2);
 assert(isstruct(pars_1));
 assert(isstruct(pars_2));
 assert(pars_1.Xi == pars_2.Xi);
+
+%% Override
+pars = importPars('philrob.csv');
+pars.Qmax = 150;
+
+assert(pars.Qmax == 150);
