@@ -13,7 +13,7 @@ clc;
 pars = genPars('philrob2007');
 
 %% Generate time series
-nDays = 3; % d
+nDays = 5; % d
 ts = [0, 3600*24*nDays]; % Expected units are s
 y_init = [-10, 1, 10];
 [ts, ys, asleep] = philrob(ts, y_init, pars);
@@ -56,7 +56,7 @@ zlabel('H (somnogen)');
 figure;
 
 % Time series
-subplot(2, 1, 1);
+subplot(2, 2, 1);
 plot(ts_days, ys);
 hold on;
 plot(ts_days, forcing, 'Color', 'k', 'LineStyle', '--');
@@ -73,5 +73,8 @@ ax.GridAlpha = 0.5;
 ax.GridLineStyle = '-';
 
 % Sleep/Awake
-subplot(2, 1, 2);
+subplot(2, 2, 3);
 plot(ts_days, asleep);
+
+subplot(2, 2, [2 4]);
+rasterPlot(ts_days, asleep);
