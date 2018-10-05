@@ -16,7 +16,7 @@ pars = genPars('philrob2007');
 nDays = 3; % d
 ts = [0, 3600*24*nDays]; % Expected units are s
 y_init = [-10, 1, 10];
-[ts, ys] = philrob(ts, y_init, pars);
+[ts, ys, asleep] = philrob(ts, y_init, pars);
 
 %% Auxiliary variables
 % For prettier plots
@@ -51,3 +51,27 @@ axis equal;
 xlabel('V_v (sleep)');
 ylabel('V_m (wake)');
 zlabel('H (somnogen)');
+
+%% Asleep plot
+figure;
+
+% Time series
+subplot(2, 1, 1);
+plot(ts_days, ys);
+hold on;
+plot(ts_days, forcing, 'Color', 'k', 'LineStyle', '--');
+title('Time series');
+xlabel('Time (days)');
+legend('Vv (sleep)', 'Vm (wake)', 'H (somnogen)', 'Forcing');
+
+% Aesthetics
+ax = gca();
+ax.XTick = 0:ts_days(end);
+ax.XGrid = 'on';
+ax.GridColor = 'k';
+ax.GridAlpha = 0.5;
+ax.GridLineStyle = '-';
+
+% Sleep/Awake
+subplot(2, 1, 2);
+plot(ts_days, asleep);
