@@ -136,6 +136,9 @@ switch id
         pars.p = 10; % 1
         pars.rho = 0.032; % 1
         
+        pars.kappa = 12/pi * 3600; %s
+        pars.Qmth = 1; % s^-1
+        
     otherwise
         error('Wrong input');
 end
