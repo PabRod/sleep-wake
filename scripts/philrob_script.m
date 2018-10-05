@@ -10,7 +10,7 @@ clc;
 % the Brainstem Ascending Arousal System. 
 % J Biol Rhythms. 2007 ;22(2):167–79. 
 % Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
-pars = importPars('philrob.csv', 'philrob2007');
+pars = genPars('philrob2007');
 
 %% Generate time series
 nDays = 3; % d
