@@ -5,7 +5,7 @@ function rasterPlot(ts, asleep)
 % To turn it into a raster matrix
 nDays = floor(ts(end));
 nDailySamples = 1000;
-raster = reshapeAsRaster(ts, asleep, nDailySamples); 
+raster = reshapeAsRaster(ts, asleep, nDailySamples);
 
 %% Rescale the time vector with units
 ts_hours = linspace(0, 48, nDailySamples); % Each row covers two days
@@ -17,6 +17,25 @@ xlabel('h');
 ylabel('Day');
 xticks([0 6 12 18 24 30 36 42 48]);
 xticklabels({'0','6','12','18','0','6','12','18','0'});
+grid on;
+grid minor;
+
+% subplot(2, 1, 2);
+% [days, timebins] = find(raster);
+% days = days';
+% timebins = timebins';
+% 
+% xPoints = [timebins;
+%            timebins + 1;
+%            NaN(numel(timebins))];
+% yPoints = [days;
+%            days;
+%            NaN(numel(days))];
+% 
+% xPoints = xPoints(:);
+% yPoints = yPoints(:);
+% 
+% plot(xPoints,yPoints,'k', 'LineWidth', 1);
 
 end
 
