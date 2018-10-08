@@ -139,6 +139,21 @@ switch id
         pars.kappa = 12/pi * 3600; %s
         pars.Qmth = 1; % s^-1
         
+    case 'twocycles'
+        % Radial component
+        pars.a = -0.5;
+        pars.b = 3;
+        pars.c = -5.5;
+        pars.d = 3;
+        
+        % Angular component
+        pars.wf = 2*pi/24; %h^-1
+        pars.ws = 2*pi/50; %h^-1
+        
+        % Bifurcation parameter
+        pars.p = 0;
+        pars.wp = 2*pi/300; %h^-1
+        
     otherwise
         error('Wrong input');
 end
