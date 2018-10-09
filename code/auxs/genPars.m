@@ -141,10 +141,10 @@ switch id
         
     case 'twocycles'
         % Radial component
-        pars.a = -0.5;
-        pars.b = 3;
-        pars.c = -5.5;
-        pars.d = 3;
+        pars.a = -1;
+        pars.b = 6;
+        pars.c = -11;
+        pars.d = 6;
         
         % Angular component
         pars.wf = 2*pi/24; %h^-1
@@ -152,7 +152,7 @@ switch id
         
         % Bifurcation parameter
         pars.p = 0;
-        pars.wp = 2*pi/300; %h^-1
+        pars.wp = 2*pi/5000; %h^-1
         
     otherwise
         error('Wrong input');

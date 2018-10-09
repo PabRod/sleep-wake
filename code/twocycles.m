@@ -16,6 +16,6 @@ ts = sol.x;
 ys = sol.y;
 
 %% Build the asleep vector
-asleep = (ys(1,:) >= 0.0) & (ys(2,:) >= -sin(pi/6));
+asleep = (ys(1,:) >= 0.0) & (ys(2,:) >= 0.0);
 
 end

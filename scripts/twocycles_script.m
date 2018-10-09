@@ -6,13 +6,12 @@ clc;
 %% Two cycles model
 % Own toy model
 pars = genPars('twocycles');
-pars.p = 0.19;
-pars.wp = 2*pi/5000;
+pars.p = 0.5;
 
 %% Generate time series
 nDays = 365; % d
 ts_h = [0, nDays*24]; % Expected units are h
-y_init = [0.1, 0];
+y_init = [0.5, 0];
 [ts_h, ys, asleep] = twocycles(ts_h, y_init, pars);
 ts_d = ts_h./24;
 
