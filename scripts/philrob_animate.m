@@ -21,20 +21,20 @@ for i = 1:nFrames
     %% Generate time series
     % Stabilization run (don't use if sweeping parameter is w)
     nDays_stabil = 3; % d
-    ts = [0, 3600*24*nDays_stabil]; % Expected units are s
+    ts = [0, 24*nDays_stabil]; % Expected units are h
     y_init = [-13, 1, 10];
     [~, ys] = philrob(ts, y_init, pars);
     
     % Run inside the attractor
     nDays = 3; % d
-    ts = [0, 3600*24*nDays]; % Expected units are s
+    ts = [0, 24*nDays]; % Expected units are h
     y_init = ys(:, end);
     [ts, ys, asleep] = philrob(ts, y_init, pars);
     
     %% Auxiliary variables
     % For prettier plots
     forcing = 0.5*pars.vvc*(1 + cos(pars.w.*(ts - pars.alpha)));
-    ts_days = ts./(3600*24); % Time in days improves plots' readability
+    ts_days = ts./24; % Time in days improves plots' readability
     
     %% Plot results
     % Time series
