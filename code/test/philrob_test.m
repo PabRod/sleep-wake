@@ -1,12 +1,12 @@
 % Parameters
 nDays_short = 0.1; % d
-ts_short = [0, 3600*24*nDays_short]; % Expected units are s
-nDays_long = 6; % d
-ts_long = [0, 3600*24*nDays_long]; % Expected units are s
+ts_short = [0, 24*nDays_short]; % Expected units are h
+nDays_long = 8; % d
+ts_long = [0, 24*nDays_long]; % Expected units are h
 
 y_init = [-13, 1, 10];
 
-absTol = 1e-3;
+dyTol = 1e-3*3600; % mV h^-1
 
 %% Input parser default
 [ts_short, ys, asleep] = philrob(ts_short, y_init);
@@ -23,27 +23,27 @@ assert(d(1) == 3);
 assert(islogical(asleep));
 
 %% Input parser complete
-pars.Qmax = 120; % s^-1
-pars.theta = 9; % mV
-pars.sigma = 2.5; % mV
+pars.Qmax = 100*3600; % h^-1
+pars.theta = 10; % mV
+pars.sigma = 3; % mV
 
 pars.vmaSa = 1; % mV
-pars.vvm = 1.9; % mV s (negative effect)
-pars.vmv = 1.9; % mV s (negative effect)
+pars.vvm = 1.9/3600; % mV h (negative effect)
+pars.vmv = 1.9/3600; % mV h (negative effect)
 pars.vvc = 6.3; % mV (negative effect)
 pars.vvh = 0.19; % mV nM^-1
 
-pars.Xi = 10.8 * 3600; % s
-pars.mu = 1e-3 * 3600; % nM s
+pars.Xi = 10.8; % h
+pars.mu = 1e-3; % nM h
 
-pars.taum = 10; % s
-pars.tauv = 10; % s
+pars.taum = 10/3600; % h
+pars.tauv = 10/3600; % h
 
-T = 3600*24; % s
-pars.w = 2*pi/T; % s^-1
+T = 24; % h
+pars.w = 2*pi/T; % h^-1
 pars.D = 0.77; % mV
 pars.Da = 0.42; % mV
-pars.alpha = 0; % rad
+pars.alpha = 0.0; % rad
 
 [ts_short, ys, asleep] = philrob(ts_short, y_init, pars);
 
@@ -58,7 +58,7 @@ assert(islogical(asleep));
 % Check an equilibrium is reached
 dy = dphilrob('vmaSa', 0.0, 'vvc', 0.0);
 dy_asymptote = dy(ts_long(end), ys(:,end));
-assert(max(abs(dy_asymptote)) < absTol);
+assert(max(abs(dy_asymptote)) < dyTol);
 
 %% Only V oscillates
 % Kill mutual inhibition
@@ -67,7 +67,7 @@ assert(max(abs(dy_asymptote)) < absTol);
 % Check V_m and H stay stable
 dy = dphilrob('vvm', 0.0, 'vmv', 0.0);
 dy_asymptote = dy(ts_long(end), ys(:,end));
-assert(max(abs(dy_asymptote(2:3))) < absTol);
+assert(max(abs(dy_asymptote(2:3))) < dyTol);
 
 %% Philrob 2007
 % Simulate paper example (http://journals.sagepub.com/doi/10.1177/0748730406297512)

@@ -13,15 +13,15 @@ clc;
 pars = genPars('philrob2007');
 
 %% Generate time series
-nDays = 15; % d
-ts = [0, 3600*24*nDays]; % Expected units are s
+nDays = 4; % d
+ts = [0, 24*nDays]; % Expected units are h
 y_init = [-10, 1, 10];
 [ts, ys, asleep] = philrob(ts, y_init, pars);
 
 %% Auxiliary variables
 % For prettier plots
 forcing = pars.D + pars.Da.*cos(pars.w.*(ts - pars.alpha));
-ts_days = ts./(3600*24); % Time in days improves plots' readability
+ts_days = ts./24; % Time in days improves plots' readability
 
 %% Plot results
 

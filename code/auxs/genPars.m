@@ -38,24 +38,24 @@ switch id
         % J Biol Rhythms. 2007 ;22(2):167–79.
         % Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
         
-        pars.Qmax = 100; % s^-1
+        pars.Qmax = 100*3600; % h^-1
         pars.theta = 10; % mV
         pars.sigma = 3; % mV
         
         pars.vmaSa = 1; % mV
-        pars.vvm = 1.9; % mV s (negative effect)
-        pars.vmv = 1.9; % mV s (negative effect)
+        pars.vvm = 1.9/3600; % mV h (negative effect)
+        pars.vmv = 1.9/3600; % mV h (negative effect)
         pars.vvc = 6.3; % mV (negative effect)
         pars.vvh = 0.19; % mV nM^-1
         
-        pars.Xi = 10.8 * 3600; % s
-        pars.mu = 1e-3 * 3600; % nM s
+        pars.Xi = 10.8; % h
+        pars.mu = 1e-3; % nM h
         
-        pars.taum = 10; % s
-        pars.tauv = 10; % s
+        pars.taum = 10/3600; % h
+        pars.tauv = 10/3600; % h
         
-        T = 3600*24; % s
-        pars.w = 2*pi/T; % s^-1
+        T = 24; % h
+        pars.w = 2*pi/T; % h^-1
         pars.D = 0.77; % mV
         pars.Da = 0.42; % mV
         pars.alpha = 0.0; % rad
@@ -69,24 +69,24 @@ switch id
         % J Theor Biol [Internet]. 2008 Dec 21; 255(4):413–23.
         % Available from: https://www.sciencedirect.com/science/article/pii/S002251930800444X?via%3Dihub
         
-        pars.Qmax = 100; % s^-1
+        pars.Qmax = 100*3600; % h^-1
         pars.theta = 10; % mV
         pars.sigma = 3; % mV
         
         pars.vmaSa = 1.3; % mV
-        pars.vvm = 2.1; % mV s (negative effect)
-        pars.vmv = 1.8; % mV s (negative effect)
+        pars.vvm = 2.1/3600; % mV h (negative effect)
+        pars.vmv = 1.8/3600; % mV h (negative effect)
         pars.vvc = 2.9; % mV (negative effect)
         pars.vvh = 1.0; % mV nM^-1
         
-        pars.Xi = 45 * 3600; % s
-        pars.mu = 4.4; % nM s
+        pars.Xi = 45; % h
+        pars.mu = 4.4/3600; % nM h
         
-        pars.taum = 10; % s
-        pars.tauv = 10; % s
+        pars.taum = 10/3600; % h
+        pars.tauv = 10/3600; % h
         
-        T = 3600*24; % s
-        pars.w = 2*pi/T; % s^-1
+        T = 24; % h
+        pars.w = 2*pi/T; % h^-1
         pars.D = 0.6; % mV
         pars.Da = 3.4; % mV
         pars.alpha = 0.0; % rad
@@ -100,24 +100,24 @@ switch id
         % J Biol Rhythms [Internet]. 2011 Oct 15;26(5):441–53. 
         % Available from: http://www.ncbi.nlm.nih.gov/pubmed/21921298
         
-        pars.Qmax = 100; % s^-1
+        pars.Qmax = 100*3600; % h^-1
         pars.theta = 10; % mV
         pars.sigma = 3; % mV
         
         pars.vmaSa = 1.3; % mV
-        pars.vvm = 2.1; % mV s (negative effect)
-        pars.vmv = 1.8; % mV s (negative effect)
+        pars.vvm = 2.1/3600; % mV h (negative effect)
+        pars.vmv = 1.8/3600; % mV h (negative effect)
         pars.vvc = 5.8; % mV (negative effect)
         pars.vvh = 1.0; % mV nM^-1
         
-        pars.Xi = 50 * 3600; % s
-        pars.mu = 4.4; % nM s
+        pars.Xi = 50; % h
+        pars.mu = 4.4/3600; % nM h
         
-        pars.taum = 10; % s
-        pars.tauv = 10; % s
+        pars.taum = 10/3600; % h
+        pars.tauv = 10/3600; % h
         
-        T = 3600*24; % s
-        pars.w = 2*pi/T; % s^-1
+        T = 24; % h
+        pars.w = 2*pi/T; % h^-1
         pars.D = 0.6; % mV
         pars.Da = 3.4; % mV
         pars.alpha = 0.0; % rad
@@ -128,16 +128,16 @@ switch id
         pars.beta = 0.007; % 1
         pars.b = 0.4; % 1
         pars.G = 37; % 1
-        pars.lambda = 60 / 3600; % s^-1
+        pars.lambda = 60; % h^-1
         pars.gamma = 0.13; % 1
-        pars.tauc = 24.1 * 3600; % s
+        pars.tauc = 24.1; % h
         pars.f = 0.99729; % 1
         pars.k = 0.55; % 1;
         pars.p = 10; % 1
         pars.rho = 0.032; % 1
         
-        pars.kappa = 12/pi * 3600; %s
-        pars.Qmth = 1; % s^-1
+        pars.kappa = 12/pi; %h
+        pars.Qmth = 3600; % h^-1
         
     case 'twocycles'
         % Radial component
