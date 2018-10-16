@@ -27,6 +27,11 @@ function pars = genPars(id)
 %   Model of Sleep Physiology.
 %   J Biol Rhythms [Internet]. 2011 Oct 15;26(5):441–53.
 %   Available from: http://www.ncbi.nlm.nih.gov/pubmed/21921298
+%
+%   'strogatz1987':
+%   Strogatz, S. H. (1987). 
+%   Human sleep and circadian rhythms: a simple model based on two coupled oscillators. 
+%   Journal of Mathematical Biology, 25(3), 327–347. http://doi.org/10.1007/BF00276440
 
 switch id
     case 'philrob2007'
