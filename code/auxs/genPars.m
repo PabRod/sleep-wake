@@ -154,6 +154,15 @@ switch id
         pars.p = 0;
         pars.wp = 2*pi/5000; %h^-1
         
+    case 'strogatz1987'
+        % Frequencies
+        pars.w1 = 1/24; % h^-1
+        pars.w2 = 0.84/24; % h^-1
+        
+        % Coupling
+        pars.C1 = 0/24; % h^-1
+        pars.C2 = 0.16/24; % h^-1
+        
     otherwise
         error('Wrong input');
 end
